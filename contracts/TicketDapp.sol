@@ -7,6 +7,8 @@ contract TicketDapp {
     string name;
     // All tickets
     TicketType[] public tickets;
+    // Ticket bids
+    TicketBid[] public bids;
 
     struct TicketType {
         // A plain text description of the ticket type, i.e.: VIP, Standing, Seated, etc...
@@ -19,6 +21,17 @@ contract TicketDapp {
         uint owners;
         // map ticket to owner
         mapping (address => uint) paid;
+    }
+
+    struct TicketBid {
+        // The owner of the bid
+        address owner;
+        // Is buy or sell bid
+        bool buy;
+        // Bid price
+        uint price;
+        // The type of ticket the buyer or seller is bidding
+        uint ticketID;
     }
 
     event BuyTicket(uint _id, address _from, uint _amount); // so you can log the event
@@ -45,30 +58,38 @@ contract TicketDapp {
         if (t.owners >= t.quota || t.price > msg.value) {
             throw; // throw ensures funds will be returned
         }
+
+        if (t.paid[msg.sender] > 0) {
+            throw; // only 1 ticket per address
+        }
         t.paid[msg.sender] = msg.value;
-        t.owners ++;
+        t.owners++;
         BuyTicket(_ticketID, msg.sender, msg.value);
     }
 
-    function amendTicketType(
+    modifier organizerOnly() {
+        if (msg.sender != organizer) { throw; }
+        _
+    }
+
+    function changeTicketType(
         uint _ticketID,
         string _description,
         uint _quota
-    ) public {
-        if (msg.sender != organizer) { return; }
+    ) organizerOnly() public {
         TicketType t = tickets[_ticketID];
-        if (t.owners > _quota) { return; }
+        if (t.owners > _quota) { return; } // can't make quota lower than amount already sold
         t.description = _description;
         t.quota = _quota;
     }
 
+
     function refundTicket(
         address owner,
         uint _ticketID
-    ) public {
-        if (msg.sender != organizer) { return; }
-        address contractAddress = this;
+    ) organizerOnly() public {
 
+        address contractAddress = this;
         if (_ticketID < 0) { // Refund all tickets purchased by owner
             for (uint i=0; i<tickets.length; i++) {
                 if (tickets[i].owners == 0 || contractAddress.balance < tickets[i].paid[owner] || tickets[i].paid[owner] <= 0) {
@@ -85,12 +106,73 @@ contract TicketDapp {
                 return;
             }
             //TODO: Events
-            contractAddress.send(t.paid[owner] - (t.paid[owner] / 20)); // 5% refund fee
+            owner.send(t.paid[owner] - (t.paid[owner] / 20)); // 5% refund fee
             t.paid[owner] = 0;
             t.owners--;
         }
 
         return;
+    }
+
+    function transferTicket(
+        uint _ticketID,
+        address newOwner
+    ) public {
+        // TODO: Enforce minimum % paid to contract
+        TicketType t = tickets[_ticketID];
+        if (t.paid[msg.sender] > 0) {
+            uint value = t.paid[msg.sender];
+            t.paid[msg.sender] = 0;
+            t.paid[newOwner] = value;
+        }
+    }
+
+    function bidTicket(
+        uint _ticketID
+    ) public {
+        TicketBid bid = bids[bids.length];
+
+        bid.buy = true;
+        bid.price = msg.value;
+        bid.owner = msg.sender;
+        bid.ticketID = _ticketID;
+    }
+
+    function sellTicket(
+        uint _ticketID
+    ) public {
+        TicketType t = tickets[_ticketID];
+
+        if (t.paid[msg.sender] <= 0) {
+            throw;
+        }
+
+        // First check bids
+        for (uint i=0; i<bids.length;i++) {
+            TicketBid bid = bids[i];
+            if (bid.buy == true && bid.ticketID == _ticketID || bid.price == msg.value) {
+                // We can sell it to this guy...
+                uint ticketValue = t.paid[msg.sender];
+                uint saleValue = bid.price;
+                t.paid[msg.sender] = 0;
+                delete bids[i];
+                t.paid[bid.owner] = ticketValue;
+                {
+                    address contractAddress = this;
+                    if (contractAddress.balance >= saleValue) {
+                        msg.sender.send(saleValue - (saleValue / 100)); // 1% sale fee
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Now create the bid...
+        bid = bids[bids.length];
+        bid.buy = false;
+        bid.price = msg.value;
+        bid.owner = msg.sender;
+        bid.ticketID = _ticketID;
     }
 
     function destroy() {
