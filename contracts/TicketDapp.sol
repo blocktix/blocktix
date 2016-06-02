@@ -1,4 +1,6 @@
 // This is a simple ticket sales contract
+//
+// TODO: Create tokens, send fees to token holders
 contract TicketDapp {
 
     // The organizer of the event
@@ -130,8 +132,35 @@ contract TicketDapp {
     function bidTicket(
         uint _ticketID
     ) public {
-        TicketBid bid = bids[bids.length];
+        TicketType t = tickets[_ticketID];
 
+        // Make sure the buyer doesn't have a ticket
+        if (t.paid[msg.sender] > 0) {
+            throw;
+        }
+
+        // First check bids, buy from seller if there is one
+        for (uint i=0; i<bids.length;i++) {
+            TicketBid bid = bids[i];
+            if (bid.buy == false && bid.ticketID == _ticketID && bid.price == msg.value) {
+                // We can buy it from this guy...
+                uint ticketValue = t.paid[msg.sender];
+                uint saleValue = bid.price;
+                t.paid[bid.owner] = 0;
+                delete bids[i];
+                t.paid[msg.sender] = ticketValue;
+                {
+                    address contractAddress = this;
+                    if (contractAddress.balance >= saleValue) {
+                        bid.owner.send(saleValue - (saleValue / 100)); // 1% sale fee
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Now create the bid...
+        bid = bids[bids.length];
         bid.buy = true;
         bid.price = msg.value;
         bid.owner = msg.sender;
@@ -143,14 +172,15 @@ contract TicketDapp {
     ) public {
         TicketType t = tickets[_ticketID];
 
+        // Make sure the seller has a ticket
         if (t.paid[msg.sender] <= 0) {
             throw;
         }
 
-        // First check bids
+        // First check bids, sell to bidder if there is one
         for (uint i=0; i<bids.length;i++) {
             TicketBid bid = bids[i];
-            if (bid.buy == true && bid.ticketID == _ticketID || bid.price == msg.value) {
+            if (bid.buy == true && bid.ticketID == _ticketID && bid.price == msg.value) {
                 // We can sell it to this guy...
                 uint ticketValue = t.paid[msg.sender];
                 uint saleValue = bid.price;
