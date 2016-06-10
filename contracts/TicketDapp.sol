@@ -140,7 +140,7 @@ contract TicketDapp {
         }
 
         // First check bids, buy from seller if there is one
-        for (uint i=0; i<bids.length;i++) {
+        for (uint i=0; i<bids.length; i++) {
             TicketBid bid = bids[i];
             if (bid.buy == false && bid.ticketID == _ticketID && bid.price == msg.value) {
                 // We can buy it from this guy...
@@ -178,7 +178,7 @@ contract TicketDapp {
         }
 
         // First check bids, sell to bidder if there is one
-        for (uint i=0; i<bids.length;i++) {
+        for (uint i=0; i<bids.length; i++) {
             TicketBid bid = bids[i];
             if (bid.buy == true && bid.ticketID == _ticketID && bid.price == msg.value) {
                 // We can sell it to this guy...
@@ -203,6 +203,24 @@ contract TicketDapp {
         bid.price = msg.value;
         bid.owner = msg.sender;
         bid.ticketID = _ticketID;
+    }
+
+    function cancelBid(
+        uint _ticketID,
+        uint price,
+        bool buy
+    ) public {
+        for (uint i=0; i<bids.length; i++) {
+            TicketBid bid = bids[i];
+            if (bid.buy == buy && bid.ticketID == _ticketID && bid.price == price && bid.owner == msg.sender) {
+                address contractAddress = this;
+                if (contractAddress.balance >= price) {
+                    delete bids[i];
+                    msg.sender.send(price);
+                    return;
+                }
+            }
+        }
     }
 
     function destroy() {
