@@ -10,7 +10,7 @@ module.exports = {
     "images/": "images/"
   },
   deploy: [
-    "TicketDapp",
+    "Blocktix",
   ],
   rpc: {
     host: "localhost",

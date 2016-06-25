@@ -1,7 +1,7 @@
 // This is a simple ticket sales contract
 //
 // TODO: Create tokens, send fees to token holders
-contract TicketDapp {
+contract Blocktix {
 
     // The organizer of the event
     address public organizer;
@@ -38,7 +38,7 @@ contract TicketDapp {
 
     event BuyTicket(uint _id, address _from, uint _amount); // so you can log the event
 
-    function TicketDapp(
+    function Blocktix(
         string _name,
         uint _price,
         uint _quota
