@@ -1,13 +1,13 @@
-# Ticketdapp - Decentralized Application for selling, distributing and trading event tickets on the Ethereum blockchain
+# Blocktix - Decentralized Application for selling, distributing and trading event tickets on the Ethereum blockchain
 
-#### How to setup ticketdapp:
+#### How to setup Blocktix:
 
-* $`git clone git@git.domain.com/team/ticketdapp.git`
+* $`git clone git@gitlab.blocktix.org/blocktix/blocktix.git`
 * $`npm install -g truffle solc ethereumjs-testrpc`
-* $`cd ticketdapp`
+* $`cd blocktix`
 * start testrpc in another terminal: $`testrpc`
-* back to ticketdapp terminal: $`truffle compile`
+* back to blocktix terminal: $`truffle compile`
 * $`truffle deploy`
 * $`truffle build`
 * $`truffle serve`
-* ticketdapp is now available at http://localhost:8080
+* blocktix is now available at http://localhost:8080
