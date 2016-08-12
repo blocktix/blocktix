@@ -1,0 +1,89 @@
+html, body, input {
+  height: 100%;
+  font-family: open_sansregular, Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+nav {
+  background-color: #282b32;
+  border-bottom: 1px solid #2a2a34;
+  border-top: 1px solid #2a2a33;
+}
+
+nav > span {
+  margin: 15px 25px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+nav span a {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #bdbebf;
+  font-size: 0.68em;;
+}
+
+nav span a.active {
+  color: red;
+  font-weight: 600;
+}
+
+nav i.separator {
+  font-size: 54px;
+  /*vertical-align: middle;*/
+  font-family: serif;
+  color: #3e4148;
+  top: -6px;
+  position: relative;
+}
+
+nav i.icon-search {
+  color: #fff;
+  vertical-align: middle;
+}
+
+nav span input[type=search] {
+  background-color: #292b33;
+  font-size: 0.68em;
+  color: #fff;
+  padding: 6px 12px;
+  border: 0;
+}
+
+/* can't change the icon :( */
+nav span input[type=search]::-webkit-search-cancel-button {
+  font-size: 24px;
+}
+
+nav span img.account-image {
+  border-radius: 100px;
+}
+
+header {
+  font-size:1.2em;
+  font-weight:100;
+  padding: 25px;
+  /*border-bottom: 2px solid #e4e8f1;*/
+  background-color: #ef494d;
+}
+
+header .heading {
+  margin-right: 25px;
+}
+
+span.active {
+  background-color: gray;
+}
+
+/* For reference...
+.black {
+  background-color: #212121;
+}
+
+.grey {
+  color: #3e4148;
+}
+
+.red {
+  background-color: #ef494d;
+}*/
