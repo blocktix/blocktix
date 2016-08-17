@@ -19,7 +19,7 @@ const HtmlElementsPlugin = require('./html-elements-plugin');
  */
 const METADATA = {
   title: 'Blocktix DApp' + (helpers.isWebpackDevServer() ? ' - Development mode' : ''),
-  baseUrl: '/',
+  baseUrl: '', // Everything is run relatively without a server in mist wallet
   isDevServer: helpers.isWebpackDevServer()
 };
 

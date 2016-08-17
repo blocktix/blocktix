@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title><%= webpackConfig.metadata.title %></title>
-  <base href="/">
+
+  <!-- base url -->
+  <base href="<%= webpackConfig.metadata.baseUrl %>">
 
   <meta name="description" content="<%= webpackConfig.metadata.title %>">
 
@@ -15,8 +17,6 @@
   <%= webpackConfig.htmlElements.headTags %>
   <% } %>
 
-  <!-- base url -->
-  <base href="<%= webpackConfig.metadata.baseUrl %>">
 
 
 </head>

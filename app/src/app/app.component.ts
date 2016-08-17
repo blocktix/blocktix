@@ -24,33 +24,33 @@ import { AppState } from './app.service';
   ],
   template: `
     <nav>
-      <span>
-        <a [routerLink]=" ['./events' ] " [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
-          <span><img src="assets/img/blocktix-logo-white.png" height="30px"></span>
+      <a [routerLink]=" ['./events' ] " [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
+        <img class="nav-logo" src="assets/img/blocktix-logo-white.png" height="30px">
 
-          <span >Events</span>
-        </a>
-      </span>
+        Events<!-- TODO: translations? -->
+      </a>
 
-      <span>
-        <a [routerLink]=" ['./exchange'] " routerLinkActive="active">
-          Exchange
-        </a>
-      </span>
-      <i class="separator grey">|</i>
-      <span>
-        <i class="icon-search"></i><input type="search" placeholder="Search for events" size="48" /><!-- TODO: Bind search... -->
+      <a [routerLink]=" ['./exchange'] " routerLinkActive="active">
+        Exchange<!-- TODO: translations? -->
+      </a>
+
+      <i class="separator"></i>
+
+      <label class="icon-search">
+        <input type="search" placeholder="Search for events" size="48" />
+        <!-- TODO: Bind search... -->
         <!-- TODO: translations? -->
-      </span>
+      </label>
 
-      <span style="float: right;">
-        <a href="#">
-          <span>104.39 ETH</span>
-          <i class="separator grey">|</i>
-          <span>Account</span>
-          <span><img [src]="accountIcon" class="account-image" height="36px;" /></span>
-        </a>
-      </span>
+      <a href="#" class="account-details">
+
+        <span>104.39 ETH</span>
+
+        <i class="separator"></i>
+
+        <span class="account-label">Account</span><img [src]="accountIcon" class="account-image" height="36px;" />
+        <!-- TODO: translations? -->
+      </a>
     </nav>
 
     <main>

@@ -1,15 +1,22 @@
-/*styles for events content only*/
+/*styles for event list content only*/
+/* Header */
+header {
+  padding: 37px 22px 34px;
+}
+
+/* create event button */
 button.create-event {
-  padding: 12px 16px;
-  text-transform: uppercase;
   background-color: #292b33;
-  border: none;
+  text-transform: uppercase;
   color: #fff;
-  font-weight: 600;
+  font-size: 0.55em;
+  vertical-align: middle;
+  padding: 13px 24px 13px 12px;
+  border: none;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  vertical-align: middle;
+
 }
 
 button.create-event:hover {
@@ -17,27 +24,79 @@ button.create-event:hover {
   color: #292b33;
 }
 
+button.create-event .icon-plus:before {
+  font-size: 1.4em;
+  vertical-align: middle;
+  margin-right: 14px;
+}
+
+/* Sort events controls */
 span.sort-events {
-  float: right;
+  margin-left: auto;
+}
+
+span.sort-events label {
+  display: block;
+  background-color: #292b33;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+  color: white;
+  padding-left: 6px;
+}
+span.sort-events label:hover {
+  background-color: #fff;
+  color: #292b33;
+}
+
+span.sort-events .icon-angle-down:before {
+  vertical-align: middle;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+span.sort-events i.separator {
+  display: inline-block;
+  height: 47px;
+  background: #3e4148;
+  width: 1px;
+  vertical-align: bottom;
 }
 
 span.sort-events select {
-  background-color: #fff;
-  padding: 10px 15px;
-  color: #b6b6b6;
-  font-weight: 600;
-  border: 2px solid #e4e8f1;
+  background: transparent;
+  border: none;
+  font-size: 0.55em;
+  text-transform: uppercase;
+  color: inherit;
+  position: relative;
+  padding: 14px 20px 14px 88px;
+  left: -62px;
+  margin-right: -70px;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
-span.sort-events i {
+span.sort-events select::-ms-expand { /* for IE 11 */
+  display: none;
+}
+
+span.sort-events i.sort-direction {
   vertical-align: middle;
 }
+/* End - Header */
 
+/* Event row */
 div.event-row {
   display: flex;
   flex-flow: row wrap;
   border-bottom: 2px solid #e4e8f1;
   cursor: pointer;
+  color: #292c33;
 }
 
 div.event-row.selected {
@@ -49,17 +108,16 @@ div.event-row:hover {
 }
 
 div.event-image {
-  flex-grow: 0;
   margin: auto 25px;
 }
 
 div.event-image img {
-  border: 2px solid #e4e8f1;
+
 }
 
 div.event-details {
-  flex-grow: 2;
-  margin: 25px 25px;
+  flex-grow: 1;
+  margin: 16px 25px;
 }
 
 div.event-details .event-name {
@@ -74,21 +132,19 @@ div.event-details .event-description {
   margin: 6px 0;
 }
 
-div.event-details .event-tags button {
-  background-color: #f7f8fa;
-  border: 1px solid #b6b6b6;
-  color: #b6b6b6;
+div.event-details .event-tags a {
+  border: 1px solid #d7d7d7;
+  padding: 3px 22px;
+  margin: 6px 6px 6px 0;
+  font-size: 0.56em;
+
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 4px;
-  padding: 4px 16px;
-  font-weight: 600;
-  margin: 6px 6px 6px 0;
 }
 
 div.event-meta {
-  flex-grow: 0;
-  margin: auto 25px;
+  margin: auto 25px auto auto;
   font-size: 0.67em;
 }
 

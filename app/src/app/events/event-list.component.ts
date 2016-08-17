@@ -11,38 +11,47 @@ import { ORDERBY_PROVIDERS } from './orderby';
   pipes: [ORDERBY_PROVIDERS],
   styleUrls: [ './event-list.style.css' ],
   template: `
-  <div class="events-container" *ngIf="events">
+
     <header>
 
       <span class="heading">Events</span>
 
-      <button [routerLink]=" ['/event'] "class="create-event"><i class="icon-plus"></i>Create Event</button>
+      <button [routerLink]=" [ '/events', 'create' ] " class="create-event"><span class="icon-plus">Create Event</span></button>
+
+  <template [ngIf]="events"><!-- conditionally create this section based on there being events or not -->
 
       <span class="sort-events">
-        <select [(ngModel)]="sortProp" (ngModelChange)="onSort()">
-          <option value="id" selected>Sort</option>
-          <option value="name">Name</option>
-          <option value="startTime">Date</option>
-          <option value="distance">Distance</option>
-          <option value="location">Location</option>
-        </select>
+        <label class="icon-angle-down">
+          <i class="separator"></i>
+          <select [(ngModel)]="sortProp" (ngModelChange)="onSort()">
+            <option value="id" selected>Sort</option>
+            <option value="name">Name</option>
+            <option value="startTime">Date</option>
+            <option value="distance">Distance</option>
+            <option value="location">Location</option>
+          </select>
+          <i class="sort-direction {{ sortClass }}" (click)="onSort()"></i>
+        </label>
 
-        <i class="{{ sortClass }}" (click)="onSort()"></i>
       </span>
+
+  </template>
 
     </header>
     <article>
 
+  <template [ngIf]="events"><!-- conditionally create this section based on there being events or not -->
+
       <div *ngFor="let event of events | orderBy : [sortDown + sortProp] " class="event-row" (click)="onSelectEvent(event);" [ngClass]="{selected: selectedId === event.id }">
         <div class="event-image"><!-- TODO: Event Image -->
-          <img src="assets/img/event-blank.png" />
+          <img src="assets/img/event-blank.png" width="32px" height="32px" />
         </div>
         <div class="event-details">
           <div class="event-name">{{ event.name }}</div>
           <div class="event-description">{{ event.description }}</div>
           <div class="event-tags"><!-- TODO: Tags -->
-            <button>BEER</button>
-            <button>EXPO</button>
+            <a>BEER</a>
+            <a>EXPO</a>
           </div>
         </div>
         <div class="event-meta">
@@ -57,8 +66,15 @@ import { ORDERBY_PROVIDERS } from './orderby';
         </div>
       </div>
 
+  </template>
+
+  <template [ngIf]="!events"><!-- conditionally create this section based on there being events or not -->
+    <div class="event-row event-details" [routerLink]=" ['/events', 'create' ] ">
+      There are currently no events...
+    </div>
+  </template>
+
     </article>
-  </div>
   `
 })
 export class EventListComponent {

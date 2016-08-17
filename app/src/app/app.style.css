@@ -1,79 +1,128 @@
-html, body, input {
+html, body {
   height: 100%;
   font-family: open_sansregular, Arial, Helvetica, sans-serif;
   margin: 0;
 }
 
+input, button, select {
+  font-family: open_sansregular, Arial, Helvetica, sans-serif;
+}
+
+/* Nav */
 nav {
   background-color: #282b32;
-  border-bottom: 1px solid #2a2a34;
+  border-bottom: 3px solid #2a2a34;
   border-top: 1px solid #2a2a33;
-}
-
-nav > span {
-  margin: 15px 25px;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-nav span a {
-  text-decoration: none;
   text-transform: uppercase;
   color: #bdbebf;
-  font-size: 0.68em;;
+  font-size: 0.67em;
+  width: 100%;
 }
 
-nav span a.active {
-  color: red;
+nav, nav > a {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+}
+
+nav > * {
+  margin: 14px 24px 15px;
+}
+
+nav a {
+  color: #bdbebf;
+  text-decoration: none;
+}
+
+nav > a.active {
+  color: #ef494d;
   font-weight: 600;
 }
 
-nav i.separator {
-  font-size: 54px;
-  /*vertical-align: middle;*/
-  font-family: serif;
-  color: #3e4148;
-  top: -6px;
-  position: relative;
+nav > a:hover,
+nav > a.active:hover {
+  color: white;
+  font-weight:700;
 }
 
-nav i.icon-search {
-  color: #fff;
+nav > a > * {
+  margin-right: 22px;
+}
+
+nav > a > img.nav-logo {
+  margin-right: 48px;
+}
+
+nav i.separator {
+  display: inline-block;
+  height: 30px;
+  background: #3e4148;
+  width: 1px;
+}
+
+nav .icon-search {
+  color: white;
+  margin-left: 13px;
+}
+
+nav .icon-search:before {
+  margin-right: 6px;
+  font-size: 1.35em;
   vertical-align: middle;
 }
 
-nav span input[type=search] {
+nav input[type=search] {
   background-color: #292b33;
-  font-size: 0.68em;
+  font-size: 0.95em;
   color: #fff;
   padding: 6px 12px;
   border: 0;
 }
 
+
+/* Webkit - Safari / Chrome */
+::-webkit-input-placeholder { color: #4a4b50; opacity: 1; }
+/* Firefox 18- */
+:-moz-placeholder { color: #4a4b50; }
+/* Firefox 19+ */
+::-moz-placeholder { color: #4a4b50; }
+/* IE / MS */
+:-ms-input-placeholder { color: #4a4b50; }
+
+nav > a.account-details {
+  margin-left:auto;
+}
+
 /* can't change the icon :( */
-nav span input[type=search]::-webkit-search-cancel-button {
-  font-size: 24px;
+nav input[type=search]::-webkit-search-cancel-button {
+  font-size: 22px;
 }
 
-nav span img.account-image {
+nav a span.account-label {
+  margin-right: 12px;
+}
+
+nav img.account-image {
   border-radius: 100px;
+  margin-right: 0;
 }
+/* End - Nav */
 
+/* Header */
 header {
-  font-size:1.2em;
-  font-weight:100;
-  padding: 25px;
-  /*border-bottom: 2px solid #e4e8f1;*/
   background-color: #ef494d;
+  display: flex;
+  align-items: center;
+  color: white;
+  padding: 0 22px;
+  font-size:1.33em;
+  font-weight:100;
 }
 
 header .heading {
   margin-right: 25px;
 }
-
-span.active {
-  background-color: gray;
-}
+/* End - Header */
 
 /* For reference...
 .black {
