@@ -7,8 +7,10 @@
 
   <title><%= webpackConfig.metadata.title %></title>
 
+  <% if (webpackConfig.metadata.baseUrl) { %>
   <!-- base url -->
   <base href="<%= webpackConfig.metadata.baseUrl %>">
+  <% } %>
 
   <meta name="description" content="<%= webpackConfig.metadata.title %>">
 

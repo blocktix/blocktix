@@ -44,7 +44,7 @@ import { ORDERBY_PROVIDERS } from './orderby';
 
       <div *ngFor="let event of events | orderBy : [sortDown + sortProp] " class="event-row" (click)="onSelectEvent(event);" [ngClass]="{selected: selectedId === event.id }">
         <div class="event-image"><!-- TODO: Event Image -->
-          <img src="assets/img/event-blank.png" width="32px" height="32px" />
+          <img src="assets/img/event-blank.png" width="32px" height="32px" /><!-- TODO: Image sizes :? -->
         </div>
         <div class="event-details">
           <div class="event-name">{{ event.name }}</div>

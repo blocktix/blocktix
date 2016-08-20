@@ -37,7 +37,7 @@ import { AppState } from './app.service';
       <i class="separator"></i>
 
       <label class="icon-search">
-        <input type="search" placeholder="Search for events" size="48" />
+        <input type="search" placeholder="Search for events" size="36" />
         <!-- TODO: Bind search... -->
         <!-- TODO: translations? -->
       </label>
