@@ -6,6 +6,7 @@ import { Router, RoutesRecognized } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
 import { AppState } from './app.service';
+import { LocationService } from './core/location.service.ts';
 
 /*
  * App Component
@@ -25,7 +26,7 @@ import { AppState } from './app.service';
   template: `
     <nav>
       <a [routerLink]=" ['./events' ] " [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">
-        <img class="nav-logo" src="assets/img/blocktix-logo-white.png" height="30px">
+        <img class="nav-logo" src="assets/img/blocktix-logo-white.svg" height="30px" width="52px">
 
         Events<!-- TODO: translations? -->
       </a>
@@ -42,6 +43,16 @@ import { AppState } from './app.service';
         <!-- TODO: translations? -->
       </label>
 
+      <i class="rhs"></i>
+      <a class="location-details" [routerLink]=" ['./location'] " routerLinkActive="active">
+        <span *ngIf="location">
+          My Location: {{ location?.coords?.latitude }}, {{ location?.coords?.longitude }}
+        </span>
+        <span *ngIf="!location">
+          Set Location
+        </span>
+      </a>
+
       <a href="#" class="account-details">
 
         <span>104.39 ETH</span>
@@ -57,7 +68,10 @@ import { AppState } from './app.service';
       <router-outlet></router-outlet>
     </main>
 
-    <pre class="app-state">this.appState.state = {{ appState.state | json }}</pre>
+    <pre class="app-state">
+      this.appState.state = {{ appState.state | json }}
+      location: {{ location | json }}
+    </pre>
 
     <!-- TODO: footer>
       <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
@@ -72,12 +86,15 @@ import { AppState } from './app.service';
 export class App {
   private sub: Subscription;
   private pageTitle: string;
-  accountIcon = 'assets/img/angularclass-avatar.png';
   name = 'Blocktix DApp';
   url = "https://blocktix.org";
 
+  private location: Position;
+  private locationerror: PositionError;
+
   constructor(
     public appState: AppState,
+    public locationService: LocationService,
     private router: Router,
     private title: Title) {
       this.pageTitle = title.getTitle();
@@ -86,13 +103,17 @@ export class App {
   ngOnInit() {
     this.sub = this.router.events.subscribe(event => {
       if (event instanceof RoutesRecognized) {
-        this.title.setTitle(this.pageTitle + ' - ' + event.state['_root'].children[0].value.component.pageTitle);
+        var titleSuffix = event.state['_root'].children[0].value.component.pageTitle;
+        if (this.pageTitle.indexOf(titleSuffix) == -1)
+          this.title.setTitle(this.pageTitle + ' - ' + event.state['_root'].children[0].value.component.pageTitle);
       }
     });
+    this.locationService.getPosition()
+      .then(position => this.location = position)
+      .catch(error => this.locationerror = error);
   }
 
   ngOnDestroy() {
-
     this.sub.unsubscribe();
   }
 

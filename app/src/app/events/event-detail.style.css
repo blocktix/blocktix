@@ -4,9 +4,6 @@
 }
 
 /* Header */
-header {
-  flex: 1 100%;
-}
 div.event-meta {
   margin: auto 25px auto auto;
   font-size: 0.56em;
@@ -23,7 +20,7 @@ div.event-meta .event-location {
 
 div.event-meta .event-start-datetime::before {
   content: " ";
-  background: url('../../assets/img/event-datetime.png');
+  background: url('../../assets/img/event-datetime.svg');
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -33,7 +30,7 @@ div.event-meta .event-start-datetime::before {
 
 div.event-meta .event-location::before {
   content: " ";
-  background-image: url('../../assets/img/event-location.png');
+  background-image: url('../../assets/img/event-location.svg');
   display: inline-block;
   width: 15px;
   height: 18px;
@@ -43,14 +40,27 @@ div.event-meta .event-location::before {
 /* End - Header */
 
 /* Body */
-article {
-  width: 69%;
-  border-right: 1px solid #e4e8f1;
-  /*position: absolute;
-  bottom: 0;
-  top: 173px;
-  height: auto;
-  width: 100%;*/
+leaflet-map {
+  position: relative;
+  height: 600px;
+  margin: 24px;
+  width: calc(100% - 48px);
+}
+@media screen and (min-width: 1092px) {
+  article {
+    width: 70%;
+  }
+
+  leaflet-map {
+    position: absolute;
+    margin: 0;
+    top: 163px;
+    right: 0;
+    bottom: 0;
+    width: 30%;
+    height: auto;
+    border-left: 1px solid #e4e8f1;
+  }
 }
 
 /* Content */
@@ -173,21 +183,6 @@ div.event-ticket-refund button:hover {
   color: white;
   font-weight:900;
   cursor: pointer;
-}
-
-aside {
-  position:absolute;
-  width: 30%;
-  right:0;
-  top: 164px;
-  bottom: 0;
-  height: auto;
-
-  /* map */
-  /*flex: 1;*/
-  /*align-self: stretch;*/
-  background: lightblue;
-  /*max-height: calc(100% - 160px);*/
 }
 
 /* Map

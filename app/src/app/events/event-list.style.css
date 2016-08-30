@@ -146,6 +146,7 @@ div.event-details .event-tags a {
 div.event-meta {
   margin: auto 25px auto auto;
   font-size: 0.67em;
+  min-width: 400px;
 }
 
 div.event-meta label {
@@ -159,7 +160,7 @@ div.event-meta .event-location {
 
 div.event-meta .event-start-datetime::before {
   content: " ";
-  background-image: url('../../assets/img/event-datetime.png');
+  background-image: url('../../assets/img/event-datetime.svg');
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -169,10 +170,10 @@ div.event-meta .event-start-datetime::before {
 
 div.event-meta .event-location::before {
   content: " ";
-  background-image: url('../../assets/img/event-location.png');
+  background-image: url('../../assets/img/event-location.svg');
   display: inline-block;
-  width: 15px;
-  height: 18px;
-  margin-right: 7px;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
   vertical-align: bottom;
 }

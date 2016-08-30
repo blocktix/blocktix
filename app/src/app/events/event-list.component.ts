@@ -4,10 +4,12 @@ import { Router } from '@angular/router';
 import { AppState } from '../app.service';
 import { EventsService, Event } from './events.service';
 import { ORDERBY_PROVIDERS } from './orderby';
+import { DistanceComponent } from '../core/distance.component';
 
 @Component({
   selector: 'events',  // <events></events>
   providers: [EventsService],
+  directives: [DistanceComponent],
   pipes: [ORDERBY_PROVIDERS],
   styleUrls: [ './event-list.style.css' ],
   template: `
@@ -44,7 +46,7 @@ import { ORDERBY_PROVIDERS } from './orderby';
 
       <div *ngFor="let event of events | orderBy : [sortDown + sortProp] " class="event-row" (click)="onSelectEvent(event);" [ngClass]="{selected: selectedId === event.id }">
         <div class="event-image"><!-- TODO: Event Image -->
-          <img src="assets/img/event-blank.png" width="32px" height="32px" /><!-- TODO: Image sizes :? -->
+          <img src="assets/img/event-blank.svg" width="32px" height="32px" /><!-- TODO: Image sizes :? -->
         </div>
         <div class="event-details">
           <div class="event-name">{{ event.name }}</div>
@@ -61,7 +63,7 @@ import { ORDERBY_PROVIDERS } from './orderby';
           </div>
           <div class="event-location">
             <label>Location</label>
-            <span>{{ event.location }}, 3.2Km</span><!-- TODO: Calculate distance -->
+            <span>{{ event.location.address }}<distance [location]="event.location">, </distance></span><!-- TODO: Calculate distance -->
           </div>
         </div>
       </div>

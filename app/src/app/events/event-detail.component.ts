@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Map, TileLayer } from 'leaflet';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -6,10 +6,15 @@ import { Subscription } from 'rxjs/Subscription';
 import { AppState } from '../app.service';
 import { EventsService, Event } from './events.service';
 
+import { MapComponent } from '../leaflet/map.component';
+import { DistanceComponent } from '../core/distance.component';
+
+
 @Component({
   selector: 'event',  // <event></event>
   providers: [EventsService],
-  styleUrls: ['event-detail.style.css', '../../../node_modules/leaflet/dist/leaflet.css'],
+  styleUrls: ['event-detail.style.css'],
+  directives: [MapComponent, DistanceComponent],
   template: `
   <template [ngIf]="event">
     <header>
@@ -23,16 +28,18 @@ import { EventsService, Event } from './events.service';
         </div>
         <div class="event-location">
           <label>Location</label>
-          <span>{{ event.location }}, 3.2Km</span><!-- TODO: Calculate distance -->
+          <span>{{ event.location.address }}<distance [location]="event.location">, </distance></span><!-- TODO: Calculate distance -->
         </div>
       </div>
     </header>
 
     <article>
 
+      <leaflet-map [location]="event.location"></leaflet-map>
+
       <div class="event-content">
         <div class="event-image"><!-- TODO: Event Image -->
-          <img src="assets/img/event-blank.png" width="32px" height="32px" /><!-- TODO: Image size :? -->
+          <img src="assets/img/event-blank.svg" width="32px" height="32px" /><!-- TODO: Image size :? -->
         </div>
 
         <div class="event-details">
@@ -77,10 +84,6 @@ import { EventsService, Event } from './events.service';
     </article>
 
   </template>
-
-  <aside>
-    <div #map id="map" style="width:100%;height:100%;"></div>
-  </aside>
   `
 })
 export class EventDetailComponent {
@@ -101,19 +104,11 @@ export class EventDetailComponent {
     this.sub = this.route.params.subscribe(params => {
       let id = +params['id']; // (+) converts string 'id' to a number
       this.service.getEvent(id)
-        .then(event => this.event = event)
-        .then(function() {
+        .then(event => {
+          this.event = event;
 
-          var map = new L.Map('map', {
-            zoomControl: false,
-            center: new L.LatLng(40.731253, -73.996139),
-            zoom: 12,
-            minZoom: 4,
-            maxZoom: 19,
-            layers: [new L.TileLayer("http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
-              {attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'})]
-          });
-         });
+          this.appState.set('event-id', event.id);
+        });
      });
 
   }
