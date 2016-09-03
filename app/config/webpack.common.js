@@ -96,8 +96,6 @@ module.exports = {
      */
     preLoaders: [
 
-
-
     ],
 
     /*
@@ -182,17 +180,6 @@ module.exports = {
      * See: https://github.com/s-panferov/awesome-typescript-loader#forkchecker-boolean-defaultfalse
      */
     new ForkCheckerPlugin(),
-
-    /*
-     * Plugin: OccurenceOrderPlugin
-     * Description: Varies the distribution of the ids to get the smallest id length
-     * for often used ids.
-     *
-     * See: https://webpack.github.io/docs/list-of-plugins.html#occurrenceorderplugin
-     * See: https://github.com/webpack/docs/wiki/optimization#minimize
-     */
-    new webpack.optimize.OccurenceOrderPlugin(true),
-
     /*
      * Plugin: CommonsChunkPlugin
      * Description: Shares common code between the pages.

@@ -105,6 +105,7 @@ nav a span.account-label {
 nav img.account-image {
   border-radius: 100px;
   margin-right: 0;
+  max-width: 36px;
 }
 /* End - Nav */
 

@@ -59,7 +59,7 @@ import { LocationService } from './core/location.service.ts';
 
         <i class="separator"></i>
 
-        <span class="account-label">Account</span><img [src]="accountIcon" class="account-image" height="36px;" />
+        <span class="account-label">Account</span><img [src]="accountIcon" class="account-image" height="36px" />
         <!-- TODO: translations? -->
       </a>
     </nav>
@@ -88,6 +88,7 @@ export class App {
   private pageTitle: string;
   name = 'Blocktix DApp';
   url = "https://blocktix.org";
+  private accountIcon: string = 'assets/img/blocktix-logo-red.svg';
 
   private location: Position;
   private locationerror: PositionError;
@@ -109,8 +110,9 @@ export class App {
       }
     });
     this.locationService.getPosition()
-      .then(position => this.location = position)
-      .catch(error => this.locationerror = error);
+      .subscribe(
+        position => this.location = position,
+        error => this.locationerror = error);
   }
 
   ngOnDestroy() {

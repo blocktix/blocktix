@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-//import { HmrState } from 'angular2-hmr';
+import { Observable, Observer } from 'rxjs';
 import { Http } from '@angular/http';
 
 import { Location } from './location.class';
 import { IPositionError, IPosition, ICoordinates } from './location.interfaces';
+
 
 /*
 class IPositionError extends PositionError {
@@ -85,44 +86,50 @@ class Coordinates implements ICoordinates {
 
 @Injectable()
 export class LocationService {
-  private _position: Promise<Position>;
+  private _position: Observable<Position>;
+  private _observer: Observer<Position>;
+  private _lastPosition: Position;
 
   constructor(
     private http: Http) {
+    // we only need to initialize this once, as it is a shared observable...
+    this._position = Observable.create(observer => {
 
-    // we only need to initialize this once most likely...
-    this._position = new Promise((resolve, reject) => {
+      this._observer = observer;
 
-          if (navigator && navigator.geolocation)
-            navigator.geolocation.getCurrentPosition(
-              position => {
-                resolve(position);
-              },
-              error => {
-                if (error.code === error.POSITION_UNAVAILABLE)
-                  this.http
-                    .get('http://freegeoip.net/json/')
-                    .subscribe(
-                      response => {
-                        let coords: Coordinates = response.json();
-                        coords = new Coordinates(coords.latitude, coords.longitude);
-                        resolve(<Position>new Position(coords, new Date().getTime()));
-                      },
-                      httperr => reject(error));
-                else
-                  reject(error);
-              });
-          else
-            reject(new PositionError(0, 'Browser does not support location services'));
-        });
+      if (navigator && navigator.geolocation)
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            observer.next(position);
+          },
+          error => {
+            if (error.code === error.POSITION_UNAVAILABLE)
+              this.http
+                .get('http://freegeoip.net/json/')
+                .subscribe(
+                  response => {
+                    let coords: Coordinates = response.json();
+                    coords = new Coordinates(coords.latitude, coords.longitude);
+                    observer.next(<Position>new Position(coords, new Date().getTime()));
+                  },
+                  httperr => observer.error(error));
+            else
+              observer.error(error);
+          });
+      else
+        observer.error(new PositionError(0, 'Browser does not support location services'));
+    }).publishReplay(1).refCount();
+
+    //this._position.publishLast().refCount();
   }
 
-  getPosition(): Promise<Position> {
+  getPosition(): Observable<Position> {
+
     return this._position;
   }
 
   setPosition(latitude: number, longitude: number) {
-    this._position = Promise.resolve(
+    this._observer.next(
       new Position(
         new Coordinates(latitude, longitude),
         new Date().getTime()));

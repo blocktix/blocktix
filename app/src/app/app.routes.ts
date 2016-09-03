@@ -1,12 +1,11 @@
 import { Routes, RouterModule } from '@angular/router';
 import { eventsRoutes } from './events';
 import { NoContent } from './no-content';
+import { LocationComponent } from './core/location.component';
 
 import { DataResolver } from './app.resolver';
 
-// AngularClass
-// import { provideWebpack } from '@angularclass/webpack-toolkit';
-// import { providePrefetchIdleCallbacks } from '@angularclass/request-idle-callback';
+
 export const ROUTES: Routes = [
   {
     path: '',
@@ -14,5 +13,6 @@ export const ROUTES: Routes = [
     pathMatch: 'full'
   },
   ...eventsRoutes,
+  { path: 'location', component: LocationComponent},
   { path: '**',    component: NoContent },
 ];

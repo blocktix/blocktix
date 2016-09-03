@@ -7,10 +7,7 @@ import { Location } from '../core/location.class';
 @Component({
   selector: 'distance',
   template: `
-    <template [ngIf]="distance">
-      <ng-content></ng-content>
-      {{ distance }}
-    </template>
+    <template [ngIf]="distance"><ng-content></ng-content> {{ distance }}</template>
   `
 })
 export class DistanceComponent {
@@ -26,16 +23,18 @@ export class DistanceComponent {
 
   ngOnInit() {
     this.locationService.getPosition()
-      .then(position => {
-        this.mylocation = position;
-        this.distance = this.calculateDistance(
-          this.location.coordinates[0],    this.location.coordinates[1],
-          this.mylocation.coords.latitude, this.mylocation.coords.longitude).toFixed(2) + ' Km'
-      })
-      .catch(error => this.locateError = error);
+
+      .subscribe(
+        position => {
+          this.mylocation = position;
+          this.distance = DistanceComponent.calculateDistance(
+            this.location.coordinates[0],    this.location.coordinates[1],
+            this.mylocation.coords.latitude, this.mylocation.coords.longitude).toFixed(2) + ' Km'
+        },
+        error => this.locateError = error);
   }
 
-  calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  static calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
     let dLon = lng2 - lng1,
         rad = 0.017453292519943295, // Math.PI / 180
         deg = 57.29577951308232, // 180 / Math.PI

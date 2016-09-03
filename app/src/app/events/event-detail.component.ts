@@ -1,6 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { Map, TileLayer } from 'leaflet';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AppState } from '../app.service';
@@ -96,8 +95,7 @@ export class EventDetailComponent {
   constructor(
     public appState: AppState,
     public service: EventsService,
-    private route: ActivatedRoute,
-    private router: Router) {
+    private route: ActivatedRoute) {
   }
 
   ngOnInit() {
