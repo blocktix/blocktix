@@ -3,14 +3,10 @@ import { Router } from '@angular/router';
 
 import { AppState } from '../app.service';
 import { EventsService, Event } from './events.service';
-import { ORDERBY_PROVIDERS } from './orderby';
-import { DistanceComponent } from '../core/distance.component';
 
 @Component({
   selector: 'events',  // <events></events>
   providers: [EventsService],
-  directives: [DistanceComponent],
-  pipes: [ORDERBY_PROVIDERS],
   styleUrls: [ './event-list.style.css' ],
   template: `
 

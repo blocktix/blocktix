@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { LocationService } from './location.service';
 import { Location } from '../core/location.class';
 
@@ -12,6 +13,7 @@ import { Location } from '../core/location.class';
 })
 export class DistanceComponent {
   @Input() location: Location;
+  private sub: Subscription;
 
   private mylocation: Position;
   private locateError: PositionError;
@@ -23,7 +25,6 @@ export class DistanceComponent {
 
   ngOnInit() {
     this.locationService.getPosition()
-
       .subscribe(
         position => {
           this.mylocation = position;
@@ -32,6 +33,10 @@ export class DistanceComponent {
             this.mylocation.coords.latitude, this.mylocation.coords.longitude).toFixed(2) + ' Km'
         },
         error => this.locateError = error);
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   static calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {

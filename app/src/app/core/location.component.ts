@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { LocationService } from './location.service';
 import { Location } from './location.class';
-import { MapComponent } from '../leaflet/map.component';
 
 @Component({
   selector: 'location',  // <location></location>
-  //styleUrls: ['event-detail.style.css'],
-  directives: [MapComponent],
   template: `
-    <leaflet-map [location]="location" draggable="true" [markerCallback]="updateLocation.bind(this)"></leaflet-map>
+    <leaflet-map [location]="location" draggable="true" [markerCallback]="updateLocation.bind(this)">
+    </leaflet-map>
   `
 })
 export class LocationComponent {
   public static pageTitle = 'My Location';
+  private sub: Subscription;
 
   private location: Location;
 
@@ -21,17 +21,19 @@ export class LocationComponent {
   }
 
   ngOnInit() {
-    this.locationService.getPosition()
+    this.sub = this.locationService.getPosition()
       .subscribe(position => {
         this.location = new Location('', [position.coords.latitude, position.coords.longitude]);
-      });
+      },
+      error => {console.log(error); alert('double click map to set location...')}); // TODO: Handle error
   }
 
   ngOnDestroy() {
-
+    this.sub.unsubscribe();
   }
 
   updateLocation(latLng: L.LatLng): void {
+    // TODO: Do you want to save location?
     this.locationService.setPosition(latLng.lat, latLng.lng);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, ElementRef, Input } from '@angular/core';
-import { Location } from '../core/location.class';
+import { Location } from '.';
 
 import 'leaflet';
 
@@ -17,7 +17,6 @@ export class MapComponent {
   @Input() draggable: boolean = false;
   @Input() markerCallback: (latLng: L.LatLng) => void;
 
-  private prevLocation: L.LatLng;
   public locationMarker: L.Marker;
 
   public static icon: L.Icon = L.icon({
@@ -35,11 +34,9 @@ export class MapComponent {
   }
 
   ngOnInit() {
-    this.prevLocation = L.latLng(this.location ? this.location.coordinates : [1.1, 1.1]);
-
     this.map = L.map(this._element.nativeElement, <L.Map.MapOptions>{
       /*zoomControl: false,*/
-      center: this.prevLocation,
+      center: L.latLng(this.location ? this.location.coordinates : [1.1, 1.1]),
       zoom: (this.location ? 14 : 4),
       minZoom: 4,
       maxZoom: 17,
@@ -50,8 +47,6 @@ export class MapComponent {
     });
 
     this.updateLocationMarker();
-
-    //this.map.locate({setView: true, maxZoom: 16});
   }
 
   ngDoCheck() {
@@ -65,13 +60,20 @@ export class MapComponent {
         .setView(this.location.coordinates, 10, {animate: true});
 
       this.updateLocationMarker();
+    } else {
+      this.map.once('dblclick', _=> console.log(_))
     }
   }
 
   updateLocationMarker() {
 
-    if (!this.location)
+    if (!this.location) {
+      if (this.locationMarker) {
+        this.map.removeLayer(this.locationMarker);
+        delete this.locationMarker;
+      }
       return;
+    }
 
     if (this.locationMarker)
       this.locationMarker.setLatLng(this.location.coordinates);

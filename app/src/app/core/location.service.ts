@@ -6,37 +6,6 @@ import { Location } from './location.class';
 import { IPositionError, IPosition, ICoordinates } from './location.interfaces';
 
 
-/*
-class IPositionError extends PositionError {
-}
-*/
-/*
-class PositionError implements IPositionError {
-  readonly;
-  get PERMISSION_DENIED(): number {return 1};
-  get POSITION_UNAVAILABLE(): number {return 2};
-  get TIMEOUT(): number {return 3};
-
-  constructor(
-    public code:number,
-    public message:string) {
-  }
-}
-
-
-interface Position {
-    readonly coords: Coordinates;
-    readonly timestamp: number;
-}
-
-declare var Position: {
-    prototype: Position;
-    new(): Position;
-}
-}*/
-
-
-
 class PositionError implements IPositionError {
   readonly;
   PERMISSION_DENIED: number;
@@ -47,9 +16,6 @@ class PositionError implements IPositionError {
   constructor(
     public code:number,
     public message:string) {
-    console.log('before');
-    console.log(Object.getPrototypeOf(PositionError));
-    console.log(Object.getPrototypeOf(this));
   }
 }
 
@@ -58,7 +24,7 @@ PositionError.prototype.POSITION_UNAVAILABLE = 2;
 PositionError.prototype.TIMEOUT = 3;
 
 class Position implements IPosition {
-  readonly;
+
 
   constructor(
     public coords:Coordinates,
@@ -67,8 +33,6 @@ class Position implements IPosition {
 }
 
 class Coordinates implements ICoordinates {
-  null;
-  readonly;
 
   accuracy: number;
   altitude: number;
@@ -83,7 +47,6 @@ class Coordinates implements ICoordinates {
   }
 }
 
-
 @Injectable()
 export class LocationService {
   private _position: Observable<Position>;
@@ -93,45 +56,55 @@ export class LocationService {
   constructor(
     private http: Http) {
     // we only need to initialize this once, as it is a shared observable...
-    this._position = Observable.create(observer => {
+    this._position = Observable.create(observer => this._observer = observer).publishReplay(1).refCount();
+    this._position.subscribe().unsubscribe(); // Kick it off, since its shared... We should look at a more functional approach in the future
+  }
 
-      this._observer = observer;
+  locate(): void {
+    localStorage.removeItem('storedLocation');
 
-      if (navigator && navigator.geolocation)
-        navigator.geolocation.getCurrentPosition(
-          position => {
-            observer.next(position);
-          },
-          error => {
-            if (error.code === error.POSITION_UNAVAILABLE)
-              this.http
-                .get('http://freegeoip.net/json/')
-                .subscribe(
-                  response => {
-                    let coords: Coordinates = response.json();
-                    coords = new Coordinates(coords.latitude, coords.longitude);
-                    observer.next(<Position>new Position(coords, new Date().getTime()));
-                  },
-                  httperr => observer.error(error));
-            else
-              observer.error(error);
-          });
-      else
-        observer.error(new PositionError(0, 'Browser does not support location services'));
-    }).publishReplay(1).refCount();
-
-    //this._position.publishLast().refCount();
+    if (navigator && navigator.geolocation)
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          this._observer.next(position);
+        },
+        error => {
+          if (error.code === error.POSITION_UNAVAILABLE)
+            this.http
+              .get('http://freegeoip.net/json/')
+              .subscribe(
+                response => {
+                  let coords: Coordinates = response.json();
+                  coords = new Coordinates(coords.latitude, coords.longitude);
+                  this._observer.next(<Position>new Position(coords, new Date().getTime()));
+                },
+                httperr => this._observer.error(error));
+          else
+            this._observer.error(error);
+        });
+    else
+      this._observer.error(new PositionError(0, 'Browser does not support location services'));
   }
 
   getPosition(): Observable<Position> {
+    console.log(localStorage.getItem('storedLocation'));
+    if (localStorage && localStorage.getItem('storedLocation'))
+      setTimeout(_ => this._observer.next(JSON.parse(localStorage.getItem('storedLocation'))));
+    else
+      this.locate();
 
     return this._position;
   }
 
-  setPosition(latitude: number, longitude: number) {
-    this._observer.next(
-      new Position(
-        new Coordinates(latitude, longitude),
-        new Date().getTime()));
+  setPosition(position: any, longitude?: number): void {
+    if (typeof position === "number")
+      position = new Position(
+        new Coordinates(position, longitude),
+        new Date().getTime());
+
+    console.log(JSON.stringify(position));
+    localStorage.setItem('storedLocation', JSON.stringify(position));
+
+    this._observer.next(position);
   }
 }

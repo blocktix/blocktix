@@ -5,15 +5,15 @@ import { Subscription } from 'rxjs/Subscription';
 import { AppState } from '../app.service';
 import { EventsService, Event } from './events.service';
 
-import { MapComponent } from '../leaflet/map.component';
-import { DistanceComponent } from '../core/distance.component';
+import { MapComponent } from '../core';
+import { DistanceComponent } from '../core';
 
 
 @Component({
   selector: 'event',  // <event></event>
   providers: [EventsService],
   styleUrls: ['event-detail.style.css'],
-  directives: [MapComponent, DistanceComponent],
+  //directives: [MapComponent, DistanceComponent],
   template: `
   <template [ngIf]="event">
     <header>
