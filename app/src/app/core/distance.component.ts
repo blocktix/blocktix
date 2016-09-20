@@ -24,7 +24,7 @@ export class DistanceComponent {
   }
 
   ngOnInit() {
-    this.locationService.getPosition()
+    this.sub = this.locationService.getPosition()
       .subscribe(
         position => {
           this.mylocation = position;
