@@ -184,14 +184,3 @@ div.event-ticket-refund button:hover {
   font-weight:900;
   cursor: pointer;
 }
-
-/* Map
-div.event-map {
-  flex: 1 auto;
-  margin-left: auto;
-  width: 20%;
-  background: lightblue;
-  align-self: stretch;
-  min-height: 300px;
-}
-*/
