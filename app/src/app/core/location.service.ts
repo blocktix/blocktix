@@ -102,7 +102,6 @@ export class LocationService {
         new Coordinates(position, longitude),
         new Date().getTime());
 
-    console.log(JSON.stringify(position));
     localStorage.setItem('storedLocation', JSON.stringify(position));
 
     this._observer.next(position);

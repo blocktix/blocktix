@@ -1,5 +1,6 @@
-import { Component, ViewEncapsulation, ElementRef, Input } from '@angular/core';
+import { Component, ViewEncapsulation, ElementRef, Input, EventEmitter } from '@angular/core';
 import { Location } from '.';
+import { Subscription } from 'rxjs/Subscription';
 
 import 'leaflet';
 
@@ -27,6 +28,7 @@ export class MapComponent {
   });
 
   public map: L.Map;
+  public subscription : Subscription;
   public attribution: string = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
 
   constructor(
@@ -89,5 +91,4 @@ export class MapComponent {
     if (this.draggable)
       this.locationMarker.bindPopup('Click and drag to update location...').openPopup();
   }
-
 }

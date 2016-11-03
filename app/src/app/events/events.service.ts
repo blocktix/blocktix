@@ -24,6 +24,7 @@ export class Event {
     ) { }
 }
 
+let EVENTSEQUENCE = 2;
 let EVENTS = [
   {
     id: 1,
@@ -70,5 +71,14 @@ export class EventsService {
     return eventsPromise
       .then(events => events.find(
         event => event.id === +id));
+  }
+
+  createEvent(event :Event): Promise<Event> {
+    console.log('Event#Event(): Get Event');
+    event.id = EVENTSEQUENCE++;
+    EVENTS.push(event);
+    console.log(EVENTS);
+    return eventsPromise
+      .then(success => true);
   }
 }

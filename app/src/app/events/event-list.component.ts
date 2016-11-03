@@ -14,7 +14,7 @@ import { EventsService, Event } from './events.service';
 
       <span class="heading">Events</span>
 
-      <button [routerLink]=" [ '/events', 'create' ] " class="create-event"><span class="icon-plus">Create Event</span></button>
+      <button [routerLink]=" [ '/event', 'create' ] " class="create-event"><span class="icon-plus">Create Event</span></button>
 
   <template [ngIf]="events"><!-- conditionally create this section based on there being events or not -->
 
