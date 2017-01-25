@@ -1,4 +1,6 @@
-# Blocktix - Decentralized Application for selling, distributing and trading event tickets on the Ethereum blockchain
+# Blocktix DApp
+
+### [Blocktix](https://blocktix.io) is an [Ethereum](https://ethereum.org) based, counterfeit-resistant solution for individuals and event hosting businesses to distribute, advertise, and transfer ownership of event tickets or passes.
 
 #### How to setup Blocktix:
 
