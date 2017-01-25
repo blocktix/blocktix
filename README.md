@@ -2,7 +2,7 @@
 
 #### How to setup Blocktix:
 
-* $`git clone git@gitlab.blocktix.org:blocktix/blocktix.git`
+* $`git clone git@github.com:blocktix/blocktix.git`
 * $`npm install -g truffle solc ethereumjs-testrpc`
 * $`cd blocktix`
 * start testrpc in another terminal: $`testrpc`
