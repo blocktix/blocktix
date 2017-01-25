@@ -1,4 +1,4 @@
-# Blocktix DApp
+# Blocktix DApp Prototype - Coming soon!
 
 ### [Blocktix](https://blocktix.io) is an [Ethereum](https://ethereum.org) based, counterfeit-resistant solution for individuals and event hosting businesses to distribute, advertise, and transfer ownership of event tickets or passes.
 
