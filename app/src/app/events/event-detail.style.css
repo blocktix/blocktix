@@ -54,7 +54,7 @@ leaflet-map {
   leaflet-map {
     position: absolute;
     margin: 0;
-    top: 163px;
+    top: 167px;
     right: 0;
     bottom: 0;
     width: 30%;
@@ -183,4 +183,21 @@ div.event-ticket-refund button:hover {
   color: white;
   font-weight:900;
   cursor: pointer;
+}
+
+.pop-over-content.my-pop-over-message {
+    background: transparent;
+}
+
+.my-pop-over {
+    padding: 25px;
+    width: 350px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 0 3px black;
+    -moz-box-shadow: 0 0 3px black;
+    box-shadow: 0 0 3px black;
+}
+
+.my-pop-over a {
+  color: #ef494d;
 }

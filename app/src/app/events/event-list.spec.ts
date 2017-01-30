@@ -1,6 +1,6 @@
 import {
-  addProviders,
-  inject
+  inject,
+  TestBed
 } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { BaseRequestOptions, Http } from '@angular/http';
@@ -13,7 +13,7 @@ import { EventList } from './event-list.component.ts';
 
 describe('EventList', () => {
   // provide our implementations or mocks to the dependency injector
-  beforeEach(() => addProviders([
+  beforeEach(() => TestBed.configureTestingModule([
     BaseRequestOptions,
     MockBackend,
     {

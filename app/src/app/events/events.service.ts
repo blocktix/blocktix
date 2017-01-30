@@ -79,6 +79,6 @@ export class EventsService {
     EVENTS.push(event);
     console.log(EVENTS);
     return eventsPromise
-      .then(success => true);
+      .then(_event => event);
   }
 }

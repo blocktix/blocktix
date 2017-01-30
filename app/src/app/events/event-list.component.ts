@@ -76,6 +76,7 @@ import { EventsService, Event } from './events.service';
   `
 })
 export class EventListComponent {
+
   public static pageTitle = 'Events'; // TODO: Translations?
 
   private selectedId: number;

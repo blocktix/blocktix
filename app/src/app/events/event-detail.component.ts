@@ -7,6 +7,7 @@ import { EventsService, Event } from './events.service';
 
 import { MapComponent } from '../core';
 import { DistanceComponent } from '../core';
+import { PopOverComponent } from 'ng2-pop-over/pop-over.component';
 
 
 @Component({
@@ -68,8 +69,21 @@ import { DistanceComponent } from '../core';
           <div><label>Availability:</label> 5/1000 Remaining</div>
           <div><label>Price:</label> 5 ETH</div>
         </div>
+          <pop-over
+                  #portalPop [my]="'top'" [at]="'bottom'"
+                  [anchor-to]="true" [x-offset]="5" [y-offset]="15">
+              <div class="my-pop-over">
+                  <div>It seems you're low on funds.</div>
+                  <br>
+                  <div>You only have <b>4.39 ETH</b> available</div>
+                  <br>
+                  <div>Use the <a href="#">Blocktix Portal</a> to get more.</div>
+
+              </div>
+          </pop-over>
         <div class="event-ticket-buy">
-          <button>buy</button>
+
+          <button [pop-over-trigger]="portalPop" [show-on]="'click'">buy</button>
           <input type="number" min="1" max="1000" value="1" />
           <label>Total:</label> 10 ETH
         </div>
@@ -86,6 +100,7 @@ import { DistanceComponent } from '../core';
   `
 })
 export class EventDetailComponent {
+
   public static pageTitle = 'Event';
 
   private sub: Subscription;
@@ -106,6 +121,7 @@ export class EventDetailComponent {
           this.event = event;
 
           this.appState.set('event-id', event.id);
+
         });
      });
 

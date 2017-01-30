@@ -16,7 +16,7 @@ import { Location } from '../core';
       <span class="heading">{{heading}}</span>
     </header>
 
-    <form (ngSubmit)="onCreateEvent()"> 
+    <form (ngSubmit)="onCreateEvent()">
       <div class="event-form">
         <div class="event-form-row form-border-bottom">
           <label class="col-2">ORGANISER:</label>
@@ -28,11 +28,11 @@ import { Location } from '../core';
         <div class="event-form-row form-border-bottom">
           <label class="col-2">EVENT NAME:</label>
           <div class="event-form-input col-10">
-            <input 
-              name="name" 
-              type="text" 
-              ngControl="name" 
-              [(ngModel)]="event.name" 
+            <input
+              name="name"
+              type="text"
+              ngControl="name"
+              [(ngModel)]="event.name"
               required
             >
           </div>
@@ -42,9 +42,9 @@ import { Location } from '../core';
           <div class="event-form-input col-10">
             <textarea
               rows="5"
-              name="description" 
-              type="text"  
-              ngControl="description" 
+              name="description"
+              type="text"
+              ngControl="description"
               [(ngModel)]="event.description"
             ></textarea>
           </div>
@@ -59,15 +59,15 @@ import { Location } from '../core';
 
         <div class="event-map form-border-bottom">
           <leaflet-map [location]="event.location" [draggable]="true" [markerCallback]="markerCallback"></leaflet-map>
-        </div>  
+        </div>
 
         <div class="event-form-row form-border-bottom">
           <label class="col-2">EVENT START DATE / TIME:</label>
           <div class="event-form-input col-10">
-            <input 
-              name="start-datetime" 
+            <input
+              name="start-datetime"
               type="datetime-local"
-              ngControl="start-datetime" 
+              ngControl="start-datetime"
               [(ngModel)]="event.startDatetime"
             />
           </div>
@@ -75,10 +75,10 @@ import { Location } from '../core';
         <div class="event-form-row form-border-bottom">
           <label class="col-2">EVENT END DATE / TIME:</label>
           <div class="event-form-input col-10">
-            <input 
-              name="end-datetime" 
+            <input
+              name="end-datetime"
               type="datetime-local"
-              ngControl="end-datetime" 
+              ngControl="end-datetime"
               [(ngModel)]="event.endDatetime"
             />
           </div>
@@ -87,6 +87,7 @@ import { Location } from '../core';
           <div class="event-form-buttons">
             <button type="submit">Create</button>
             <button type="button" (click)="onCancel()">Cancel</button>
+
           </div>
         </div>
       </div>
@@ -122,11 +123,11 @@ export class EventComponent {
     this.locationService.getPosition()
       .subscribe(
         position => {
-         // the events location to the current location 
+         // the events location to the current location
          this.event.location = {
-           address: '', 
+           address: '',
            coordinates: [
-             position.coords.latitude, 
+             position.coords.latitude,
              position.coords.longitude
              ]
            };
@@ -135,7 +136,7 @@ export class EventComponent {
       );
 
     this.sub = this.route.params.subscribe(params => {
-      this.mode = params['mode']; 
+      this.mode = params['mode'];
       this.heading = this.mode[0].toUpperCase() + this.mode.slice(1) + ' ' + EventComponent.pageTitle;
      });
 

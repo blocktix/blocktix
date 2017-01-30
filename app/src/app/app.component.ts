@@ -6,7 +6,7 @@ import { Router, RoutesRecognized } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs/Subscription';
 import { AppState } from './app.service';
-import { LocationService } from './core/location.service.ts';
+import { LocationService } from './core/location.service';
 
 /*
  * App Component
@@ -21,7 +21,8 @@ import { LocationService } from './core/location.service.ts';
     '../assets/fonts/fontello/fontello.css'
   ],
   providers: [
-    Title
+    Title,
+    LocationService
   ],
   template: `
     <nav>
@@ -55,7 +56,7 @@ import { LocationService } from './core/location.service.ts';
 
       <a href="#" class="account-details">
 
-        <span>104.39 ETH</span>
+        <span>4.39 ETH</span>
 
         <i class="separator"></i>
 
@@ -68,10 +69,10 @@ import { LocationService } from './core/location.service.ts';
       <router-outlet></router-outlet>
     </main>
 
-    <pre class="app-state">
+    <!--pre class="app-state">
       this.appState.state = {{ appState.state | json }}
       location: {{ location | json }}
-    </pre>
+    </pre-->
 
     <!-- TODO: footer>
       <span>WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a></span>
