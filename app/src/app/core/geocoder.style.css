@@ -1,0 +1,32 @@
+
+.geocoder-address {
+	width: 100%;
+	padding: 10px 0px 10px 6px;
+	border: 1px solid #e4e8f1;
+}
+
+.geocoder-results-list{
+	margin: 0px;
+    padding: 0px;
+    border-left: 1px solid #e4e8f1;
+    border-right: 1px solid #e4e8f1;
+}
+
+.geocoder-results-list li{
+	list-style: none;
+    background-color: white;
+    padding: 3px;
+    border-bottom: 1px solid #e4e8f1;
+    cursor: pointer;
+}
+
+.geocoder-results {
+	position: absolute;
+	z-index: 1;
+	width:100%;
+}
+
+.geocoder-licence {
+	text-align: center;
+    font-style: italic;
+}

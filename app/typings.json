@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "bignumber.js": "registry:npm/bignumber.js#2.4.0+20160714211320"
+  },
+  "globalDependencies": {
+    "geojson": "registry:dt/geojson#0.0.0+20160619034323",
+    "leaflet": "registry:dt/leaflet#1.0.0+20160630180443"
+  }
+}
