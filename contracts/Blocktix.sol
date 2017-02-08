@@ -1,6 +1,9 @@
 // This is a simple ticket sales contract
 //
 // TODO: Create tokens, send fees to token holders
+
+pragma solidity ^0.4.8;
+
 contract Blocktix {
 
     // The organizer of the event
@@ -55,7 +58,7 @@ contract Blocktix {
 
     function buyTicket(
         uint _ticketID
-    ) public {
+    ) payable {
         TicketType t = tickets[_ticketID];
         if (t.owners >= t.quota || t.price > msg.value) {
             throw; // throw ensures funds will be returned
@@ -71,7 +74,7 @@ contract Blocktix {
 
     modifier organizerOnly() {
         if (msg.sender != organizer) { throw; }
-        _
+        _;
     }
 
     function changeTicketType(
@@ -98,7 +101,8 @@ contract Blocktix {
                     continue;
                 }
                 //TODO: Events
-                contractAddress.send(tickets[i].paid[owner] - (tickets[i].paid[owner] / 20)); // 5% refund fee
+                if(!contractAddress.send(tickets[i].paid[owner] - (tickets[i].paid[owner] / 20))) // 5% refund fee
+                    throw;
                 tickets[i].paid[owner] = 0;
                 tickets[i].owners--;
             }
@@ -108,7 +112,8 @@ contract Blocktix {
                 return;
             }
             //TODO: Events
-            owner.send(t.paid[owner] - (t.paid[owner] / 20)); // 5% refund fee
+            if(!owner.send(t.paid[owner] - (t.paid[owner] / 20))) // 5% refund fee
+                throw;
             t.paid[owner] = 0;
             t.owners--;
         }
@@ -131,7 +136,7 @@ contract Blocktix {
 
     function bidTicket(
         uint _ticketID
-    ) public {
+    ) payable {
         TicketType t = tickets[_ticketID];
 
         // Make sure the buyer doesn't have a ticket
@@ -152,7 +157,8 @@ contract Blocktix {
                 {
                     address contractAddress = this;
                     if (contractAddress.balance >= saleValue) {
-                        bid.owner.send(saleValue - (saleValue / 100)); // 1% sale fee
+                        if(!bid.owner.send(saleValue - (saleValue / 100))) // 1% sale fee
+                            throw;
                         return;
                     }
                 }
@@ -169,7 +175,7 @@ contract Blocktix {
 
     function sellTicket(
         uint _ticketID
-    ) public {
+    ) payable {
         TicketType t = tickets[_ticketID];
 
         // Make sure the seller has a ticket
@@ -190,7 +196,8 @@ contract Blocktix {
                 {
                     address contractAddress = this;
                     if (contractAddress.balance >= saleValue) {
-                        msg.sender.send(saleValue - (saleValue / 100)); // 1% sale fee
+                        if(!msg.sender.send(saleValue - (saleValue / 100))) // 1% sale fee
+                            throw;
                         return;
                     }
                 }
@@ -216,7 +223,8 @@ contract Blocktix {
                 address contractAddress = this;
                 if (contractAddress.balance >= price) {
                     delete bids[i];
-                    msg.sender.send(price);
+                    if(!msg.sender.send(price))
+                        throw;
                     return;
                 }
             }

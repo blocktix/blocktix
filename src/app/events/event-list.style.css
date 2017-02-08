@@ -1,0 +1,179 @@
+/*styles for event list content only*/
+/* Header */
+header {
+  padding: 37px 22px 34px;
+}
+
+/* create event button */
+button.create-event {
+  background-color: #292b33;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 0.55em;
+  vertical-align: middle;
+  padding: 13px 24px 13px 12px;
+  border: none;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+}
+
+button.create-event:hover {
+  background-color: #fff;
+  color: #292b33;
+}
+
+button.create-event .icon-plus:before {
+  font-size: 1.4em;
+  vertical-align: middle;
+  margin-right: 14px;
+}
+
+/* Sort events controls */
+span.sort-events {
+  margin-left: auto;
+}
+
+span.sort-events label {
+  display: block;
+  background-color: #292b33;
+
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+
+  color: white;
+  padding-left: 6px;
+}
+span.sort-events label:hover {
+  background-color: #fff;
+  color: #292b33;
+}
+
+span.sort-events .icon-angle-down:before {
+  vertical-align: middle;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+span.sort-events i.separator {
+  display: inline-block;
+  height: 47px;
+  background: #3e4148;
+  width: 1px;
+  vertical-align: bottom;
+}
+
+span.sort-events select {
+  background: transparent;
+  border: none;
+  font-size: 0.55em;
+  text-transform: uppercase;
+  color: inherit;
+  position: relative;
+  padding: 14px 20px 14px 88px;
+  left: -62px;
+  margin-right: -70px;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+span.sort-events select::-ms-expand { /* for IE 11 */
+  display: none;
+}
+
+span.sort-events i.sort-direction {
+  vertical-align: middle;
+}
+/* End - Header */
+
+/* Event row */
+div.event-row {
+  display: flex;
+  flex-flow: row wrap;
+  border-bottom: 2px solid #e4e8f1;
+  cursor: pointer;
+  color: #292c33;
+}
+
+div.event-row.selected {
+  background: #fbfcfe;
+}
+
+div.event-row:hover {
+  background: #f8f9fb;
+}
+
+div.event-image {
+  margin: auto 25px;
+}
+
+div.event-image img {
+
+}
+
+div.event-details {
+  flex-grow: 1;
+  margin: 16px 25px;
+}
+
+div.event-details .event-name {
+  font-size: 0.68em;
+  font-weight: 600;
+  margin: 6px 0;
+}
+
+div.event-details .event-description {
+  font-size: 0.67em;
+  color: #b6b6b6;
+  margin: 6px 0;
+}
+
+div.event-details .event-tags a {
+  border: 1px solid #d7d7d7;
+  padding: 3px 22px;
+  margin: 6px 6px 6px 0;
+  font-size: 0.56em;
+
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 4px;
+}
+
+div.event-meta {
+  margin: auto 25px auto auto;
+  font-size: 0.67em;
+  min-width: 440px;
+}
+
+div.event-meta label {
+  font-weight: 600;
+}
+
+div.event-meta .event-start-datetime,
+div.event-meta .event-location {
+  margin: 20px;
+}
+
+div.event-meta .event-start-datetime::before {
+  content: " ";
+  background-image: url('assets/img/event-datetime.svg');
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  vertical-align: bottom;
+}
+
+div.event-meta .event-location::before {
+  content: " ";
+  background-image: url('assets/img/event-location.svg');
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  vertical-align: bottom;
+}
